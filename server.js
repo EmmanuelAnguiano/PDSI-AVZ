@@ -2,30 +2,60 @@
 'use strict'
 const express = require('express'),
         cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const session = require('express-session');
-const connection = require('./bd/mysql.js')//
+const md5 = require('md5');
+const connection = require('./bd/mysql.js')
 const app = express();
+
+//acomodar
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.static('public'));
+app.set('view engine', 'pug');
     app.use(cookieParser());
     app.use(session({
         secret: 'keyboard cat',
         resave: true,
-        savenUnitialized: true,
+        saveUninitialized: true,
         cookie: {
             maxAge: 60000
         }
-    }))
+    }));
+
+
 app.get('/', function(req,res,next){
-    if(req.session.views){
-        req.session.views++
-        res.setHeader('content-type', 'text/html')
-        res.write('<p>views: '+req.session.views+'</p>')
-        res.write('<p>expires in: '+ 
-            (req.session.cookie.maxAge / 1000) + 
-            's</p>')
-        res.end()
+    res.render('login')
+})
+
+app.post('/auth', function(req,res,next){
+    if(req.body.sign_in==""){
+        let pass = md5(req.body.pass)
+
+        var sql = 'SELECT id, username, correo FROM datos WHERE correo = "' + req.body.correo + '" AND pass ' + pass + '"';
+
+        connection.query(sql, function(err, resp, fields){
+            if(resp,length){
+                console.log(resp[0].id);
+                req.session.userid = resp[0].id;
+                req.session.username = resp[0].username;
+                req.session.correo = resp[0].correo;
+                res.redirect('/sesion');
+            }else{
+                res.redirect('/404')
+            }
+        });
     }else{
-        req.session.views = 1
-        res.end('welcome to the session demo. Refresh!')
+        res.redirect('/registro')
     }
-}) 
+});
+
+app.get('/sesion', function(req,res,next){
+    res.send(req.session);
+});
+
+app.get('/cerrar', function(req,res,next){
+    req.session.destroy();
+})
+
+
 app.listen(8080);

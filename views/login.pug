@@ -6,13 +6,12 @@ html
         meta(name="theme-color" content="#7952b3")
     body(class="text-center text-white bg-dark" anx="4C")
     main(class="form-signin")
-        form(action="/" method="post")
+        form(action="/auth" method="post")
             div
                     input(
                         type="text"
                         class="form-control form-control-lg"
                         id="floatingInput"
-                        placeholder="the_batman"
                         name="username")
                     p Username
             div
@@ -20,13 +19,9 @@ html
                         type="text"
                         class="form-control form-control-lg"
                         id="floatingInput"
-                        placeholder="batman@gmail.com"
                         name="email")
                     p Email
             div
-                input(type="password" class="form-control form-control-lg" id="floatingPassword" placeholder="Password" name="pass")
+                input(type="password" class="form-control form-control-lg" id="floatingPassword" name="pass")
                 p Contraseña
-            div
-                input(type="password" class="form-control form-control-lg" id="floatingPassword" placeholder="Password" name="id")
-                p ID
             button(class="w-100 btn btn-lg btn-primary" type="submit" name="sign_in") Iniciar sesión
