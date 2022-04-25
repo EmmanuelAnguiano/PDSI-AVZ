@@ -27,6 +27,26 @@ app.get('/', function(req,res,next){
     res.render('login')
 })
 
+//entrar a bd
+app.get('/registro', function(req, res) {
+    res.render('registro');
+});
+
+app.post('/registroUser', function(req, res) {
+    if(req.body.registro == ""){
+        let pass  = (req.body.pass)
+        connection.query('INSERT INTO datos(usarname, correo, contraseña) VALUES (?, ?, ?)',[req.body.username, req.body.email, pass], function(err, result, fields){
+            
+            if (err) throw err;
+            res.redirect('/')
+            
+        })
+       }else{
+        res.redirect('/')
+       }
+});
+
+
 app.post('/auth', function(req,res,next){
     if(req.body.sign_in==""){
         let pass = md5(req.body.pass)
