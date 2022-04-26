@@ -35,7 +35,7 @@ app.get('/registro', function(req, res) {
 app.post('/registroUser', function(req, res) {
     if(req.body.registro == ""){
         let pass  = (req.body.pass)
-        connection.query('INSERT INTO datos(usarname, correo, contraseña) VALUES (?, ?, ?)',[req.body.username, req.body.email, pass], function(err, result, fields){
+        connection.query('INSERT INTO datos(username, correo, pass) VALUES (?, ?, ?)',[req.body.username, req.body.email, pass], function(err, result, fields){
             
             if (err) throw err;
             res.redirect('/')
@@ -49,12 +49,12 @@ app.post('/registroUser', function(req, res) {
 
 app.post('/auth', function(req,res,next){
     if(req.body.sign_in==""){
-        let pass = md5(req.body.pass)
+        let pass = req.body.pass
 
-        var sql = 'SELECT id, username, correo FROM datos WHERE correo = "' + req.body.correo + '" AND pass ' + pass + '"';
-
+        var sql = 'SELECT id, username, correo FROM datos WHERE correo = "' + req.body.email + '" AND pass = "' + pass + '"';    
+            console.log(sql);
         connection.query(sql, function(err, resp, fields){
-            if(resp,length){
+            if(resp.length){
                 console.log(resp[0].id);
                 req.session.userid = resp[0].id;
                 req.session.username = resp[0].username;
