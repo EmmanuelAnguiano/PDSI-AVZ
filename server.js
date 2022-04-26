@@ -27,7 +27,6 @@ app.get('/', function(req,res,next){
     res.render('login')
 })
 
-//entrar a bd
 app.get('/registro', function(req, res) {
     res.render('registro');
 });
@@ -51,15 +50,15 @@ app.post('/auth', function(req,res,next){
     if(req.body.sign_in==""){
         let pass = req.body.pass
 
-        var sql = 'SELECT id, username, correo FROM datos WHERE correo = "' + req.body.email + '" AND pass = "' + pass + '"';    
+        var sql = 'SELECT id, username, correo FROM datos WHERE username = "' + req.body.username + '" AND pass = "' + pass + '"';    
             console.log(sql);
         connection.query(sql, function(err, resp, fields){
             if(resp.length){
                 console.log(resp[0].id);
                 req.session.userid = resp[0].id;
                 req.session.username = resp[0].username;
-                req.session.correo = resp[0].correo;
-                res.redirect('/sesion');
+                req.session.email = resp[0].correo;
+                res.render('home',{username:req.body.username, email:req.session.email});
             }else{
                 res.redirect('/404')
             }
