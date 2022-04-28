@@ -14,6 +14,9 @@ head
       ul.sidebar-nav
         li.sidebar-header
           | Salas
+        button(class='btnagr')
+          li.sidebar-item
+            i.align-middle(data-feather='plus-circle')
         li.sidebar-item.active
           a.sidebar-link
             i.align-middle(data-feather='message-square')
@@ -50,6 +53,7 @@ head
                         class="form-control form-control-lg"
                         id="floatingInput"
                         name="mens")
-    button(class='btnenv') Enviar
+    button(class='btnenv') Enviar 
+        i.align-middle(data-feather='send')
 
 script(src='/js/app.js')
