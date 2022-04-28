@@ -1,2 +1,55 @@
-html 
-    p hola usurio  #{username} con correo #{email}
+html
+head
+  title LiveChat Demo Template
+  link(href='/css/app.css' rel='stylesheet')
+  link(href='/css/btn.css' rel='stylesheet')
+  link(rel="stylesheet" href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css")
+  link(rel="stylesheet" href="https://getbootstrap.com/docs/5.0/examples/sign-in/signin.css")
+.wrapper
+  nav#sidebar.sidebar.js-sidebar
+    .sidebar-content.js-simplebar
+      a.sidebar-brand
+        span.align-middle LiveChat
+        i.align-middle(data-feather='message-square')
+      ul.sidebar-nav
+        li.sidebar-header
+          | Salas
+        li.sidebar-item.active
+          a.sidebar-link
+            i.align-middle(data-feather='message-square')
+            span.align-middle Sala 1
+        li.sidebar-item
+          a.sidebar-link
+            i.align-middle(data-feather='message-square')
+            span.align-middle Sala 2
+        li.sidebar-item
+          a.sidebar-link
+            i.align-middle(data-feather='message-square')
+            span.align-middle Sala 2
+        li.sidebar-item
+          a.sidebar-link
+            i.align-middle(data-feather='message-square')
+            span.align-middle Sala 3
+        li.sidebar-item
+          a.sidebar-link
+            i.align-middle(data-feather='message-square')
+            span.align-middle Sala 4
+  .main
+    nav.navbar.navbar-expand.navbar-light.navbar-bg
+      a.sidebar-toggle.js-sidebar-toggle
+        i.hamburger.align-self-center
+      .navbar-collapse.collapse
+        ul.navbar-nav.navbar-align
+          a.nav-link.d-none.d-sm-inline-block(href='#' data-bs-toggle='dropdown')
+            img.avatar.img-fluid.rounded.me-1(src='/img/avatars/avatar.jpg')
+            span.text-dark #{username}
+    span HOLA
+        div
+                    input(
+                        type="text"
+                        class="form-control form-control-lg"
+                        id="floatingInput"
+                        name="mens")
+    button(class='btnenv') Enviar
+
+script(src='/js/app.js')

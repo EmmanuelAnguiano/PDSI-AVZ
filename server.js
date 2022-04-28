@@ -24,7 +24,11 @@ app.set('view engine', 'pug');
 
 
 app.get('/', function(req,res,next){
+    if(req.session.username){
+        res.render('home',{username:req.session.username, email:req.session.email});
+    }else{
     res.render('login')
+    }
 })
 
 app.get('/registro', function(req, res) {
@@ -58,7 +62,7 @@ app.post('/auth', function(req,res,next){
                 req.session.userid = resp[0].id;
                 req.session.username = resp[0].username;
                 req.session.email = resp[0].correo;
-                res.render('home',{username:req.body.username, email:req.session.email});
+                res.redirect('/')
             }else{
                 res.redirect('/404')
             }
