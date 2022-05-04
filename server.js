@@ -72,6 +72,24 @@ app.post('/auth', function(req,res,next){
     }
 });
 
+app.post('/getsal', function(req, res){
+    let sql= 'SELECT * FROM grupos';
+    connection.query(sql, function(err, resp){
+        if(resp.length){
+            console.log('si hay salas');
+        }else{
+            res.send(false);
+        }
+    });
+});
+
+app.post('/addsal',function(req,res){
+    let sql= "INSERT INTO grupos(nomgrup) VALUES('"+req.body.name+"')"
+    connection.query(sql, function(err,res){
+        
+    })
+})
+
 app.get('/sesion', function(req,res,next){
     res.send(req.session);
 });
