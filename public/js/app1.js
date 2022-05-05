@@ -17,11 +17,11 @@ $(document).ready(function(){
         var nombresal = prompt('Nombre de la sala');
         let saln;
         $.post("/addroom",{name:nombresal}, function(data){
-            let disalas1=document.getElementById('salas');
-            console.log(data);
+            //let disalas1=document.getElementById('salas');
             if(data){
-                saln=`<button class='w-100 btn btn-lg btn-dark' type='button' id='${data}'>${nombresal}</button>`;
-                disalas1.innerHTML=saln;
+                
+              saln=`<button class='w-100 btn btn-lg btn-dark' type='button' id='${data['insertId']}'>${nombresal}</button>`;
+                $('#salas').append(saln);
             }
         })
         console.log(saln);

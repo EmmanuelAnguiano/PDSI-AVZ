@@ -86,9 +86,10 @@ app.post('/getsal', function(req,res){
 app.post('/addroom',function(req,resp){
     let sql1 = 'INSERT INTO grupos (nomgrup) VALUES("'+req.body.name+'")';
     var idins;
-    connection.query(sql1, function(err,res){
-        if(res.insertId){
-            return res.insertId;
+    connection.query(sql1, function(err,resp1){
+        if(resp1.insertId){
+            console.log(resp.json(resp1))
+            //return resp1.insertId;
             //idins = res.insertId;
         }else{
             console.log(err);
