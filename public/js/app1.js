@@ -1,11 +1,29 @@
 $(document).ready(function(){
     $.post("/getsal",function(data){
-        console.log(data);
-    })
-    $("/sendroom").click(function(){
-        var nom = $('#nameroom').val()
-        if(nom){
-            $.post('/addsal',{name:nom},function(data){console.log(data);})
+        let disalas=document.getElementById('salas');
+        let salas= "";
+        for(let i=0;i<data.length;i++){
+            salas+=`
+            <button class='w-100 btn btn-lg btn-dark' type='button' id='${data[i].idgrupo}'>${data[i].nomgrup}</button>`;
         }
+        disalas.innerHTML=salas;
+
+        console.log(data);
+
+    });
+
+    let btn=document.getElementById('agr');
+    btn.addEventListener('click',()=>{
+        var nombresal = prompt('Nombre de la sala');
+        let saln;
+        $.post("/addroom",{name:nombresal}, function(data){
+            let disalas1=document.getElementById('salas');
+            console.log(data);
+            if(data){
+                saln=`<button class='w-100 btn btn-lg btn-dark' type='button' id='${data}'>${nombresal}</button>`;
+                disalas1.innerHTML=saln;
+            }
+        })
+        console.log(saln);
     })
 });

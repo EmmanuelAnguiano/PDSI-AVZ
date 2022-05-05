@@ -55,10 +55,10 @@ app.post('/auth', function(req,res,next){
         let pass = req.body.pass
 
         var sql = 'SELECT id, username, correo FROM datos WHERE username = "' + req.body.username + '" AND pass = "' + pass + '"';    
-            console.log(sql);
+           //console.log(sql);
         connection.query(sql, function(err, resp, fields){
             if(resp.length){
-                console.log(resp[0].id);
+                //console.log(resp[0].id);
                 req.session.userid = resp[0].id;
                 req.session.username = resp[0].username;
                 req.session.email = resp[0].correo;
@@ -72,23 +72,29 @@ app.post('/auth', function(req,res,next){
     }
 });
 
-app.post('/getsal', function(req, res){
-    let sql= 'SELECT * FROM grupos';
-    connection.query(sql, function(err, resp){
+app.post('/getsal', function(req,res){
+    let sql = 'SELECT * FROM grupos';
+    connection.query(sql, function(err,resp){
         if(resp.length){
-            console.log('si hay salas');
+            res.send(resp);
         }else{
             res.send(false);
         }
     });
 });
 
-app.post('/addsal',function(req,res){
-    let sql= "INSERT INTO grupos(nomgrup) VALUES('"+req.body.name+"')"
-    connection.query(sql, function(err,res){
-        
-    })
-})
+app.post('/addroom',function(req,resp){
+    let sql1 = 'INSERT INTO grupos (nomgrup) VALUES("'+req.body.name+'")';
+    var idins;
+    connection.query(sql1, function(err,res){
+        if(res.insertId){
+            return res.insertId;
+            //idins = res.insertId;
+        }else{
+            console.log(err);
+        }
+    });
+});
 
 app.get('/sesion', function(req,res,next){
     res.send(req.session);
