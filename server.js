@@ -1,5 +1,3 @@
-// server.js
-'use strict'
 const express = require('express'),
         cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -7,6 +5,8 @@ const session = require('express-session');
 const md5 = require('md5');
 const connection = require('./bd/mysql.js')
 const app = express();
+
+let routes = require('./app/routes')
 
 //acomodar
 app.use(bodyParser.urlencoded({extended: false}))
@@ -22,55 +22,9 @@ app.set('view engine', 'pug');
         }
     }));
 
-
-app.get('/', function(req,res,next){
-    if(req.session.username){
-        res.render('home',{username:req.session.username, email:req.session.email});
-    }else{
-    res.render('login')
-    }
-})
-
-app.get('/registro', function(req, res) {
-    res.render('registro');
-});
-
-app.post('/registroUser', function(req, res) {
-    if(req.body.registro == ""){
-        let pass  = (req.body.pass)
-        connection.query('INSERT INTO datos(username, correo, pass) VALUES (?, ?, ?)',[req.body.username, req.body.email, pass], function(err, result, fields){
-            
-            if (err) throw err;
-            res.redirect('/')
-            
-        })
-       }else{
-        res.redirect('/')
-       }
-});
+app.use('/',routes);
 
 
-app.post('/auth', function(req,res,next){
-    if(req.body.sign_in==""){
-        let pass = req.body.pass
-
-        var sql = 'SELECT id, username, correo FROM datos WHERE username = "' + req.body.username + '" AND pass = "' + pass + '"';    
-           //console.log(sql);
-        connection.query(sql, function(err, resp, fields){
-            if(resp.length){
-                //console.log(resp[0].id);
-                req.session.userid = resp[0].id;
-                req.session.username = resp[0].username;
-                req.session.email = resp[0].correo;
-                res.redirect('/')
-            }else{
-                res.redirect('/404')
-            }
-        });
-    }else{
-        res.redirect('/registro')
-    }
-});
 
 app.post('/getsal', function(req,res){
     let sql = 'SELECT * FROM grupos';
